@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+        stage('Code') {
+            steps {
+                cleanWs()  
+                git branch: 'main', url: 'https://github.com/Spandana115/python-flask-app.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    sh 'docker build -t app1 ./single_server_deployment'  
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                script {
+                    sh 'docker run --rm app1 pytest test_app.py'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    sh 'docker run -itd --name cont1 -p 5001:5000 app1'
+                }
+            }
+        }
+    }
+}
+
