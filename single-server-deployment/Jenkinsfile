@@ -10,7 +10,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    sh 'docker build -t app ./single_server_deployment'  
+                    sh 'docker build -t app ./single-server-deployment'  
                 }
             }
         }
